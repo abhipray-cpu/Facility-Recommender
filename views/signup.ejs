@@ -1,0 +1,76 @@
+<%- include('include/head.ejs') %>
+    <link rel="stylesheet" href="/css/signup.css">
+    <link rel="stylesheet" href="/css/top_nav_white.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/transition.css">
+
+    </head>
+
+    <body>
+        <% if(error) {%>
+            <div id="Error">
+                <h4>
+                    <%= error.msg %>
+
+                </h4>
+            </div>
+            <% } %>
+                <div id="main-body">
+                    <div id="header">
+
+                        <div id="navigation">
+
+                        </div>
+                    </div>
+                    <div id="container">
+                        <form action="/addUser" method="POST">
+                            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                            <% if(error.param === 'user_name') {%>
+                                <div class="error">
+                                    <input type="text" id="user_name" name="user_name" placeholder="Username">
+                                </div>
+                                <% } else {%>
+                                    <div class="entry">
+                                        <input type="text" id="user_name" name="user_name" placeholder="Username" value="<%= user_name %>">
+                                    </div>
+                                    <% } %>
+                                        <% if(error.param === 'email') {%>
+                                            <div class="error">
+                                                <input type="email" id="email" name="email" placeholder="Email">
+                                            </div>
+                                            <% } else {%>
+                                                <div class="entry">
+                                                    <input type="email" id="email" name="email" placeholder="Email" value="<%= email %>">
+                                                </div>
+                                                <% } %>
+                                                    <div class="entry">
+                                                        <input type="text" id="contact" name="contact" placeholder="Contact Number" value="<%= contact %>">
+                                                    </div>
+
+                                                    <% if(error.param === 'password') {%>
+                                                        <div class="error">
+                                                            <input type="password" id="password" name="password" placeholder="Password">
+                                                        </div>
+                                                        <% } else {%>
+                                                            <div class="entry">
+                                                                <input type="password" id="password" name="password" placeholder="Password">
+                                                            </div>
+                                                            <% } %>
+                                                                <% if(error.param === 'password') {%>
+                                                                    <div class="error">
+                                                                        <input type="password" id="confirm" name="confirm" placeholder="Confirm Password">
+                                                                    </div>
+                                                                    <% } else {%>
+                                                                        <div class="entry">
+                                                                            <input type="password" id="confirm" name="confirm" placeholder="Confirm Password">
+                                                                        </div>
+                                                                        <% } %>
+                                                                            <button type="submit" id="btn">Signup</button>
+                        </form>
+                    </div>
+
+                </div>
+
+
+                <%- include('include/end.ejs')%>

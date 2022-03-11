@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= pageTitle %>
+    </title>
+    <link rel="stylesheet" href="/css/facility_item.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+
+</head>
+
+<body>
+    <div id="layout">
+        <div id="this">
+            <div id="wallpaper">
+                <img src="../<%= facility.image %>" alt="<%= facility.title %>">
+            </div>
+            <div id="container">
+                <div id="info">
+                    <!--here goes the info about the place-->
+                    <div id="row1">
+                        <div id="Title">
+                            <%= facility.title %>
+                        </div>
+                        <div id="rating">
+                            <%= facility.rating %> ☆</div>
+                    </div>
+                    <div id="row2">
+                        <div id="description">
+                            <p>
+                                <%= facility.description %>
+                            </p>
+                        </div>
+                        <div id="location">
+                            <a href="<%= facility.Glocation %>"><img src="/images/maps.png" alt=""></a>
+                        </div>
+                    </div>
+                    <div id="row3">
+                        <h2 style="margin-bottom:10px;">Give your feedback</h2>
+                        <form action="/addComment/<%= facility.title %>" method="POST">
+                            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                            <div class="star-widget">
+                                <input type="radio" name="rate" id="rate-5" style="display:none" value="5">
+                                <label for="rate-5" class="fas fa-star"></label>
+                                <input type="radio" name="rate" id="rate-4" style="display:none" value="4">
+                                <label for="rate-4" class="fas fa-star"></label>
+                                <input type="radio" name="rate" id="rate-3" style="display:none" value="3">
+                                <label for="rate-3" class="fas fa-star"></label>
+                                <input type="radio" name="rate" id="rate-2" style="display:none" value="2">
+                                <label for="rate-2" class="fas fa-star"></label>
+                                <input type="radio" name="rate" id="rate-1" style="display:none" value="1">
+                                <label for="rate-1" class="fas fa-star"></label>
+                            </div>
+                            <div id="text">
+                                <textarea name="content" id="content" cols="80" rows="12">Have been to this place? Share your experience</textarea>
+                            </div>
+                            <button type="Submit">
+                                  Submit
+                              </button>
+                        </form>
+                    </div>
+                </div>
+                <div id="comments">
+                    <!--here goes the comments-->
+                    <h3 style="text-align:center;font-weight:400">Reviews</h3>
+                    <% if(reviews.length > 0) { %>
+
+                        <% reviews.forEach(review => {%>
+                            <div class="comment">
+                                <span class="user"><h2><%= review.user.name %></h2></span>
+                                <span class="rating"><h2><%= review.rating %> ☆</h2></span>
+                                <span class="text"><p><%= review.content %></p></span>
+
+
+                            </div>
+
+                            <% }) %>
+                                <% } else { %>
+                                    <% for(let i=1;i<=10;i++){ %>
+                                        <div class="comment">
+                                            <span class="user"><h2>Puttanpal</h2></span>
+                                            <span class="rating"><h2>5.0 ☆</h2></span>
+                                            <span class="text"><p>No comments added yet for this facility </p></span>
+
+                                        </div>
+                                        <% } %>
+                                            <% } %>
+
+                </div>
+            </div>
+
+        </div>
+        <div id="others">
+            <h3 style="text-align:center;font-weight:500;margin-bottom:10px">Similar Facilities</h3>
+            <% if(facilities.length > 0) {  %>
+
+                <% facilities.forEach((fac) =>{  %>
+                    <a href="/details/<%= fac.title %>" style="text-decoration: none;color:black">
+                        <div class="item">
+                            <div class="pic">
+                                <img class="img-fluid" src="/<%= fac.image  %>" alt="<%= fac.title %>" style="height:130px;width:200px">
+                            </div>
+                            <div class="details">
+                                <div class="Star">
+                                    <h1>
+                                        <%= fac.rating %> ☆</h1>
+                                </div>
+                                <div class="Name">
+                                    <h2>
+                                        <%= fac.title %>
+                                    </h2>
+                                    <p>
+                                        <%= fac.description %>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="seprator"></div>
+                    <% }) %>
+                        <% } else { %>
+                            <div class="item">
+                                <div class="pic">
+                                    <img class="img-fluid" src="/images/restaurant_example.jpg" alt="">
+                                </div>
+                                <div class="details">
+                                    <div class="Star">
+                                        <h1>4.3 ☆</h1>
+                                    </div>
+                                    <div class="Name">
+                                        <h2>Deevan Da</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+
+        </div>
+    </div>
+</body>
+
+</html>

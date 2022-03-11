@@ -1,0 +1,13 @@
+<div class="container  topBotomBordersOut">
+    <a href="/home">HOME</a>
+
+    <a href="/admin">Admin</a>
+    <a href="/addProperty">Add property</a>
+    <a href="/change_password">Change Password</a>
+    <div id="search">
+        <form action="/search" method="POST">
+            <input type="text" name="val" id="val" placeholder="Search...">
+            <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+        </form>
+    </div>
+</div>

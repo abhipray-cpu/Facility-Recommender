@@ -1,0 +1,74 @@
+const express = require('express')
+const path = require('path')
+const bodyParser = require('body-parser')
+const MONGO_URI = 'mongodb+srv://Abhipray:puttanpal@cluster0.dsyp1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+const mongoose = require('mongoose')
+const multer = require('multer');
+const app = express();
+const csrf = require('csurf')
+app.use(bodyParser.urlencoded({ extended: false }));
+const fileStorage = multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, 'images'); //null is bascally the error and images is the name of teh folder where we want to store the files
+        },
+        filename: (req, file, cb) => {
+            //this replace is requried only for windows since windows storage path does not allow :
+            cb(null, Math.round(Math.floor(new Date() / 1000)) + '-' + file.originalname) //file name is the hex encooding and original name is the original name of the file
+        }
+    })
+    //this will filter only the requried files and will discard all other types of files
+
+const fileFilter = (req, file, cb) => {
+        if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+            cb(null, true);
+        } //will return the call back with a true value
+        else {
+            cb(null, false); //else will return false
+        }
+    }
+    //make sure you are using this middlware before you are using the static images middleware
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'))
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+const flash = require('connect-flash');
+const session = require('express-session');
+const mongoSession = require('connect-mongodb-session')(session);
+const Store = new mongoSession({
+    uri: MONGO_URI,
+    collection: 'session'
+})
+app.use(session({
+    secret: "Jackwa aur jillwa gae upar hillwa panya bhran ke waste jackwa girgawa khopdi phatt gawa", // always make sure this key is a good and strong string
+    resave: false,
+    saveUninitialized: false,
+    store: Store,
+}))
+const csrfProtection = csrf()
+app.use(csrfProtection)
+app.use((req, res, next) => {
+
+    res.locals.csrfToken = req.csrfToken();
+    next();
+    //now for every req rendered these two field will be included
+})
+app.use(flash())
+const generalRoutes = require('./routes/general_routes')
+const userRoutes = require('./routes/user_routes')
+const sportRoutes = require('./routes/sports')
+app.use(generalRoutes)
+app.use(userRoutes)
+app.use(sportRoutes)
+app.use((error, req, res, next) => {
+    console.log(error);
+    res.render('500.ejs')
+})
+
+mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(user => {
+        console.log("Connected successfully!!");
+        app.listen(4000);
+    })
+    .catch(err => { console.log(err) })

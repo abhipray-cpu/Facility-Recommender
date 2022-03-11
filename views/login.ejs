@@ -1,0 +1,78 @@
+<%- include('include/head.ejs') %>
+    <link rel="stylesheet" href="/css/transition.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/top_nav_white.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+
+    </head>
+
+    <body>
+        <header>
+            <h1 style="text-align: center;font-size:34px;color:white;font-style:italic;font-weight:bold">Naksha
+                <i class="fas fa-street-view fa-1x"></i>
+            </h1>
+        </header>
+        <% if(error1.length>0){ %>
+            <div id="Error1">
+                <h3>No user was found</h3>
+                <ul style="list-style-type: none">
+                    <li>
+                        <div class="option" style="margin-left:5px">
+                            <a href="/login">
+                                <h3>Try again</h3>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class='option' style="margin-right:10px">
+                            <a href="/signup">
+                                <h3>Signup</h3>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <% } %>
+                <% if(error2.length>0) { %>
+                    <div id="Error2">
+                        <h3>Wrong password !!</h3>
+                    </div>
+                    <% } %>
+                        <div id="main-body">
+                            <div id="header">
+                                <div id="heading"></div>
+                                <div id="navigation">
+
+                                </div>
+                            </div>
+
+                            <div id="container">
+                                <form action="/validateUser" method='POST'>
+                                    <input type="hidden" value="<%= csrfToken %>" name="_csrf">
+                                    <% if(error1.length > 0) {%>
+                                        <div class="error">
+                                            <input type="text" id="user_name" name="user_name" placeholder="Username">
+                                        </div>
+                                        <% } else {%>
+                                            <div class="entry">
+                                                <input type="text" id="user_name" name="user_name" placeholder="Username" value="<%= user %>">
+                                            </div>
+                                            <% } %>
+                                                <% if(error2.length > 0) {%>
+                                                    <div class="error">
+                                                        <input type="password" id="password" name="password" placeholder="Password">
+                                                    </div>
+                                                    <% } else {%>
+                                                        <div class="entry">
+                                                            <input type="password" id="password" name="password" placeholder="Password">
+                                                        </div>
+                                                        <% } %>
+                                                            <button type="submit" id="btn">Login</button>
+                                </form>
+                            </div>
+
+                        </div>
+
+                        <%- include('include/end.ejs')%>

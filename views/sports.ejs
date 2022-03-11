@@ -1,0 +1,49 @@
+<%- include('include/head.ejs') %>
+    <link rel="stylesheet" href="/css/sports.css">
+    <link rel="stylesheet" href="/css/items_sports.css">
+    <link rel="stylesheet" href="/css/top_nav_white.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/transition.css">
+
+    </head>
+
+    <body>
+        <div id="main-body">
+            <div id="header">
+
+                <div id="navigation">
+                    <%-include('include/top_nav.ejs')%>
+                        <%-include('include/side_nav.ejs')%>
+                </div>
+            </div>
+
+            <div class="grid-container">
+                <% sports.forEach(sport =>{ %>
+                    <div class="grid-item">
+                        <div class="col-md-4">
+                            <div class="profile-card-6">
+                                <a href="<%= sport.link %>?page=1&row=nan"><img src='<%= sport.image %>' class="img img-responsive"></a>
+                                <div class="profile-name">
+                                    <%= sport.title %>
+                                </div>
+                                <div class="profile-overview">
+                                    <div class="profile-overview">
+                                        <div class="row text-center">
+                                            <div class="col-xs-4">
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+
+        </div>
+
+
+        <%- include('include/end.ejs')%>
